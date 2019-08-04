@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div class="container" id="app">
+    <br />
+      <div class="row">
+        <div class="col-xs-4">
+        <h2 class="h4 text-right">Easy</h2>
+        </div>
+        <div class="col-xs-4 text-center">
+          <input class="form-control" v-model="no" type="range" min="4" max="12" step="4">
+          <button class="btn btn-primary btn-large" v-on:click="generate">
+            Play <span class="glyphicon glyphicon-play"></span>
+          </button>
+        </div>
+        <div class="col-xs-4">
+        <h2 class="h4">Hard</h2>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="row" v-cloak>
+        <div class="col-sm-6 col-sm-offset-3">
+          <div class="text-center alert" v-bind:class="{ 'alert-info': status.info, 'alert-success': status.success, 'alert-danger': status.danger }" role="alert">
+            <p>{{message}}</p>
+            <p v-if="time >= 0" class="h1">{{time}}</p>
+          </div>
+        </div>
+
+        <br />
+      </div>
+
+      <div class="row" v-cloak>
+        <div v-for="(n, i) in nos" class="col-xs-3">
+        <div class="flip-card" v-bind:class="{ flipped: isFlipped, enabled: isEnabled }" v-on:click="storeClick(i, n)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="/images/cards.png" alt="Avatar">
+            </div>
+            <div class="flip-card-back">
+              <div class="panel-body text-center">
+                <h1 class="no">{{n}}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="row" v-if="history.length > 0" v-cloak>
+        <div class="col-sm-12">
+          <div class="panel panel-info">
+            <div class="panel-heading" role="tab" id="headingOne">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Your Game History
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                <table class="table table-stripped">
+                  <thead>
+                    <tr>
+                    <th>Date</th><th>Difficulty</th><th>Cards Given</th><th>Expected Order</th><th>Your Selection</th><th>Winner</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="h in history">
+                  <td>{{h.time}}</td><td>{{h.difficulty}}</td><td>{{h.cards}}</td><td>{{h.expected}}</td><td>{{h.selection}}</td><td>{{h.won}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/javascripts/index.js"></script>
+  </body>
+</html>
