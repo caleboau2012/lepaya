@@ -3,8 +3,8 @@ var app = new Vue({
   data: {
     no: 8,
     nos: [],
+    raw: [],
     isEnabled: false,
-    isFlipped: false,
     ans: [],
     given: [],
     expected: [],
@@ -21,6 +21,7 @@ var app = new Vue({
   methods: {
     generate: function() {
       this.nos = new Array(this.no);
+      this.raw = new Array(this.no);
       this.ans = [];
       this.given = [];
       this.isEnabled = false;
@@ -29,7 +30,10 @@ var app = new Vue({
       axios
         .get(`/generate/${this.no}`)
         .then(response => {
-          this.nos = response.data;
+          this.nos = response.data.map(n => {
+            return { clicked: false, isFlipped: true, no: n };
+          });
+          this.raw = response.data;
           this.computeAns(response.data);
 
           // show message to memorise now
@@ -41,7 +45,7 @@ var app = new Vue({
 
           this.isFlipped = true;
           setTimeout(() => {
-            this.isFlipped = false;
+            this.nos.map(n => (n.isFlipped = false));
             this.isEnabled = true;
             // show message to start clicking
             this.showMessage("Now pick the cards, smallest first", "info");
@@ -54,6 +58,8 @@ var app = new Vue({
     },
     storeClick: function(i, n) {
       if (this.ans.length < this.nos.length) {
+        this.nos[i].clicked = true;
+        this.nos[i].isFlipped = true;
         this.ans.push(i);
         this.given.push(n);
       }
@@ -92,8 +98,8 @@ var app = new Vue({
       this.history.push({
         time: new Date().toDateString(),
         difficulty,
-        cards: this.nos,
-        expected: [...this.nos].sort(),
+        cards: this.raw,
+        expected: [...this.raw].sort(),
         selection: this.given,
         won: this.won ? "Yes!!" : "No :-("
       });

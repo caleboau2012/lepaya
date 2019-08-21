@@ -59,9 +59,13 @@
 }
 
 .flip-card.enabled:hover {
-  background-color: aliceblue;
+  background-color: deepskyblue;
 }
 
-.flip-card.enabled.picked {
-  background-color: cornflowerblue;
+/* .flip-card.enabled.picked {
+  background-color: deepskyblue;
+} */
+
+.flip-card.clicked {
+  background-color: deepskyblue;
 }

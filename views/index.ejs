@@ -39,14 +39,14 @@
 
       <div class="row" v-cloak>
         <div v-for="(n, i) in nos" class="col-xs-3">
-        <div class="flip-card" v-bind:class="{ flipped: isFlipped, enabled: isEnabled }" v-on:click="storeClick(i, n)">
+        <div class="flip-card" v-bind:class="{ flipped: n.isFlipped, enabled: isEnabled, clicked: n.clicked }" v-on:click="storeClick(i, n.no)">
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <img src="/images/cards.png" alt="Avatar">
             </div>
             <div class="flip-card-back">
               <div class="panel-body text-center">
-                <h1 class="no">{{n}}</h1>
+                <h1 class="no">{{n.no}}</h1>
               </div>
             </div>
           </div>
